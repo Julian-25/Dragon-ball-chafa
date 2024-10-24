@@ -4,11 +4,11 @@ import java.util.Scanner;
 // Clase base del personaje
 class Personaje {
     String nombre;
-    int fuerza;
-    int velocidad;
-    int vida_hp;
-    int ataque_especial;
-    int curar;
+    double fuerza;
+    double velocidad;
+    double vida_hp;
+    double ataque_especial;
+    double curar;
     Random random;
     int curacionLimite;
     boolean transformado;
@@ -17,9 +17,9 @@ class Personaje {
     // Definir constructor
     public Personaje(
             String nombre,
-            int fuerza,
-            int velocidad,
-            int vida_hp, int ataque_especial, int curar, boolean transformado, int segunda_fase) {
+            double fuerza,
+            double velocidad,
+            double vida_hp, double ataque_especial, double curar, boolean transformado, int segunda_fase) {
         this.nombre = nombre;
         this.fuerza = fuerza;
         this.velocidad = velocidad;
@@ -98,7 +98,7 @@ class Goku extends Personaje {
     @Override
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño); 
+        super.recibirDaño(daño / 0.4); 
     }
 }
 
@@ -110,7 +110,7 @@ class Vegeta extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño); 
+        super.recibirDaño(daño / 0.37); 
     }
 }
 
@@ -123,18 +123,22 @@ class Picoro extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño); 
+        super.recibirDaño(daño/0.45); 
     }
 }
 
 class Gohan extends Personaje {
     public Gohan() {
-        super("Gohan", 60, 250, 190, 55, 70, false, 7);
+        super("Gohan", 60, 250, 390, 55, 70, false, 7);
+    }
+    public void recibirDaño(double daño) {
+        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
+        super.recibirDaño(daño/0.35); 
     }
 
     public void transformar() {
         if (vida_hp > 0) {
-            ataque_especial += 60;
+            ataque_especial += 80;
             vida_hp += 200;
             fuerza += 30; // Aumentar fuerza adicional para Super Saiyajin 2
             System.out.println(nombre + " se ha transformado en Super Saiyajin 2! Fuerza, ataque especial y vida aumentados!!");
@@ -152,7 +156,7 @@ class Krillin extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño); 
+        super.recibirDaño(daño/0.25); 
     }
 }
 
@@ -164,7 +168,7 @@ class Trunks extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño); 
+        super.recibirDaño(daño/0.38); 
     }
 }
 
@@ -176,7 +180,7 @@ class Ten extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño); 
+        super.recibirDaño(daño/0.15); 
     }
 }
 
@@ -188,7 +192,7 @@ class Cell extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño); 
+        super.recibirDaño(daño/0.25); 
     }
 }
 class Freezer extends Personaje {
@@ -199,7 +203,7 @@ class Freezer extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño); 
+        super.recibirDaño(daño/0.30); 
     }
 }
 class Numero_17 extends Personaje {
@@ -210,7 +214,7 @@ class Numero_17 extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño); 
+        super.recibirDaño(daño/0.20); 
     }
 }
 class Numero_18 extends Personaje {
@@ -221,7 +225,7 @@ class Numero_18 extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño); 
+        super.recibirDaño(daño/0.15); 
     }
 }
 

@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 // Clase base del personaje
@@ -7,31 +8,60 @@ class Personaje {
     int velocidad;
     int vida_hp;
     int ataque_especial;
+    int curar;
+    Random random;
 
     // Definir constructor
     public Personaje(
             String nombre,
             int fuerza,
             int velocidad,
-            int vida_hp, int ataque_especial) {
+            int vida_hp, int ataque_especial, int curar) {
         this.nombre = nombre;
         this.fuerza = fuerza;
         this.velocidad = velocidad;
         this.vida_hp = vida_hp;
+        this.curar = curar;
         this.ataque_especial = ataque_especial;
-    }
+        this.random = new Random();
+        }
     public void recibirDaño(double daño){
-        System.out.println(nombre +"ataca a ");
+        daño = fuerza;
+        vida_hp -= daño;
+        System.out.println(nombre +" ataca a ");
     }
-    public void atacar (Personaje fuerza){
-        System.out.println(nombre +"recibe un ataque de " );
+    public void atacar (Personaje npc){
+        npc.recibirDaño(fuerza);
+        System.out.println(nombre +" recibe un ataque de " );
     }
 
-    public void curar(Personaje vida_hp){
-        System.out.println(nombre +"se ha curado: ");
+    public void curar() {
+        int curacion = 90; 
+        vida_hp += curacion;
+        System.out.println(nombre + " se ha curado " + curacion + " puntos de vida. Vida actual: " + vida_hp);
     }
-    public void ataqueEspecial(Personaje fuerza){
+    
+    public void ataqueEspecial(Personaje npc){
         System.out.println(nombre +" ha utilizado un ataque especial " +ataque_especial);
+        npc.recibirDaño(ataque_especial);
+    }
+
+    public void realizarAcciones(Personaje npc){
+        int accion = random.nextInt(3);
+        switch (accion) {
+            case 1:
+            atacar(npc);
+            break;
+            case 2:
+            curar();;
+            break;
+            case 3:
+            ataqueEspecial(npc);
+            break;
+            default:
+                break;
+        }
+
     }
 }
 
@@ -41,7 +71,7 @@ class Goku extends Personaje {
     // definir el constructor
     public Goku(){
 
-            super("Goku", 80, 350, 250, 75);
+            super("Goku", 80, 350, 250,75,100);
     }
     @Override
     public void recibirDaño(double daño) {
@@ -54,7 +84,7 @@ class Vegeta extends Personaje {
     // definir el constructor
     public Vegeta(){
 
-            super("Vegeta", 75, 320, 220, 80);
+            super("Vegeta", 75, 320, 220, 80,90);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -67,7 +97,7 @@ class Picoro extends Personaje {
     // definir el constructor
     public Picoro (){
 
-            super("Picoro", 55, 150, 200, 56);
+            super("Picoro", 55, 150, 200, 75,80);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -79,7 +109,7 @@ class Gohan extends Personaje {
     // definir el constructor
     public Gohan (){
 
-            super("Gohan", 60, 250, 190, 55);
+            super("Gohan", 60, 250, 190, 55,70);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -91,7 +121,7 @@ class Krillin extends Personaje {
     // definir el constructor
     public Krillin (){
 
-            super("Krillin", 45, 150, 180, 45);
+            super("Krillin", 45, 150, 180, 45,50);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -103,7 +133,7 @@ class Trunks extends Personaje {
     // definir el constructor
     public Trunks (){
 
-            super("Trunks", 65, 300, 200, 60);
+            super("Trunks", 65, 300, 200, 60,70);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -115,7 +145,7 @@ class Ten extends Personaje {
     // definir el constructor
     public Ten (){
 
-            super("Ten", 50, 150, 150, 35);
+            super("Ten", 50, 150, 150, 35,40);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -127,7 +157,7 @@ class Cell extends Personaje {
     // definir el constructor
     public Cell (){
 
-            super("Cell", 80, 300, 800, 80);
+            super("Cell", 80, 300, 800, 80,68);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -138,7 +168,7 @@ class Freezer extends Personaje {
     // definir el constructor
     public Freezer (){
 
-            super("Freezer", 65, 250, 750, 70);
+            super("Freezer", 65, 250, 750,70, 70);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -149,7 +179,7 @@ class Numero_17 extends Personaje {
     // definir el constructor
     public Numero_17 (){
 
-            super("Cell", 68, 295, 770, 75);
+            super("Cell", 68, 295, 770, 75,60);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -160,7 +190,7 @@ class Numero_18 extends Personaje {
     // definir el constructor
     public Numero_18 (){
 
-            super("Cell", 70, 300, 770, 76);
+            super("Cell", 70, 300, 770, 76,60);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -170,8 +200,8 @@ class Numero_18 extends Personaje {
 
 
 public class App {
-    final static double daño = 50.5;
     final static int semillasDelHermitaño = 3;
+    final static int curacion = 90;
     public static void main(String[] args) throws Exception {
         System.out.println("Elija su personaje (1)Goku, (2)Vegeta, (3)Picoro, (4)Krillin, (5)Gohan, (6)Ten shin han, (7)Trunks del futuro");
         Scanner scanner = new Scanner(System.in);
@@ -252,6 +282,52 @@ public class App {
                 break;
         }
 
+        while (jugador.vida_hp > 0 && npc.vida_hp > 0) {
+            int curacionLimite = 0;
+            System.out.println("\nTurno del jugador:");
+            System.out.println("1. Atacar");
+            System.out.println("2. Curarse");
+            System.out.println("3. Ataque especial");
+            System.out.print("Elija su acción (1-3): ");
+            int accionJugador = scanner.nextInt();
+
+            switch (accionJugador) {
+                case 1:
+                    jugador.atacar(npc);
+                    break;
+                case 2:
+                if (curacionLimite < 3) {
+                    jugador.curar();
+                  
+                     }
+
+                curacionLimite++;
+
+                    break;
+                case 3:
+                    jugador.ataqueEspecial(npc);
+                    break;
+                default:
+                    System.out.println("Acción no válida.");
+                    continue; // Volver a pedir acción
+            }
+
+            // Verifica si el NPC ha sido derrotado
+            if (npc.vida_hp <= 0) {
+                System.out.println(npc.nombre + " ha sido derrotado. ¡Has ganado!");
+                break;
+            }
+
+            // Turno de la CPU
+            System.out.println("\nTurno de " + npc.nombre + ":");
+            npc.realizarAcciones(jugador);
+
+            // Verifica si el jugador ha sido derrotado
+            if (jugador.vida_hp <= 0) {
+                System.out.println(jugador.nombre + " ha sido derrotado. ¡Game Over!");
+                break;
+            }
+        }
 
 
 

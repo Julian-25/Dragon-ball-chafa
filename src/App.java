@@ -59,7 +59,7 @@ class Personaje {
 
     public void transformar() {
         if (!transformado) {
-            
+            vida_hp += 150;
             fuerza += segunda_fase ; 
             transformado = true;
             System.out.println(nombre + " se ha transformado! Fuerza amuentada.");
@@ -134,8 +134,10 @@ class Gohan extends Personaje {
 
     public void transformar() {
         if (vida_hp > 0) {
+            ataque_especial += 60;
+            vida_hp += 200;
             fuerza += 30; // Aumentar fuerza adicional para Super Saiyajin 2
-            System.out.println(nombre + " se ha transformado en Super Saiyajin 2! Fuerza aumentada.");
+            System.out.println(nombre + " se ha transformado en Super Saiyajin 2! Fuerza, ataque especial y vida aumentados!!");
         } else {
             System.out.println(nombre + " no puede transformarse en estado crítico.");
         }
@@ -308,7 +310,7 @@ public class App {
                 break;
         }
 
-        int ronda = 1; // Inicializar la ronda
+        int ronda = 10; // Inicializar la ronda
 
         while (jugador.vida_hp > 0 && npc.vida_hp > 0) {
             System.out.println("\nTurno del jugador:");
@@ -316,13 +318,6 @@ public class App {
             System.out.println("1. Atacar");
             System.out.println("2. Curarse");
             System.out.println("3. Ataque especial");
-            if (ronda % 3 == 0) {
-                System.out.println("4. Transformarse"); // Opción de transformación
-            }
-            if (ronda == 10 && jugador instanceof Gohan) {
-                System.out.println("4. Transformarse en Super Saiyajin 2");
-            }
-            System.out.print("Elija su acción (1-4): ");
             int accionJugador = scanner.nextInt();
 
             switch (accionJugador) {
@@ -336,7 +331,9 @@ public class App {
                     jugador.ataqueEspecial(npc);
                     break;
                 case 4:
-                    if (ronda % 3 == 0) {
+                    if (ronda >= 10 && jugador instanceof Gohan) {
+                        ((Gohan) jugador).transformar(); // Llamar a la transformación específica
+                    } else if (ronda % 3 == 0) {
                         jugador.transformar();
                     } else {
                         System.out.println("No puedes transformarte en esta ronda.");
@@ -358,6 +355,8 @@ public class App {
                 System.out.println(jugador.nombre + " ha sido derrotado. ¡Game Over!");
                 break;
             }
+            System.out.println(jugador.nombre + " HP: " + jugador.vida_hp );
+            System.out.println(npc.nombre + " HP: " + npc.vida_hp);
 
             
             ronda++; // Incrementar la ronda

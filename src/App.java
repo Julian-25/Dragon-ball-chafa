@@ -32,7 +32,7 @@ class Personaje {
     }
     public void atacar (Personaje npc){
         npc.recibirDaño(fuerza);
-        System.out.println(nombre +" recibe un ataque de " );
+        System.out.println(nombre +" recibe un ataque de " +fuerza);
     }
 
     public void curar() {
@@ -42,7 +42,7 @@ class Personaje {
     }
     
     public void ataqueEspecial(Personaje npc){
-        System.out.println(nombre +" ha utilizado un ataque especial " +ataque_especial);
+        System.out.println(nombre +" ha utilizado su ataque especial: " +ataque_especial);
         npc.recibirDaño(ataque_especial);
     }
 
@@ -76,7 +76,7 @@ class Goku extends Personaje {
     @Override
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño / 2); 
+        super.recibirDaño(daño); 
     }
 }
 
@@ -88,7 +88,7 @@ class Vegeta extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño / 2); 
+        super.recibirDaño(daño); 
     }
 }
 
@@ -101,7 +101,7 @@ class Picoro extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño / 2); 
+        super.recibirDaño(daño); 
     }
 }
 
@@ -113,7 +113,7 @@ class Gohan extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño / 2); 
+        super.recibirDaño(daño); 
     }
 }
 
@@ -125,7 +125,7 @@ class Krillin extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño / 2); 
+        super.recibirDaño(daño); 
     }
 }
 
@@ -137,7 +137,7 @@ class Trunks extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño / 2); 
+        super.recibirDaño(daño); 
     }
 }
 
@@ -149,7 +149,7 @@ class Ten extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño / 2); 
+        super.recibirDaño(daño); 
     }
 }
 
@@ -161,7 +161,7 @@ class Cell extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño / 2); 
+        super.recibirDaño(daño); 
     }
 }
 class Freezer extends Personaje {
@@ -172,29 +172,29 @@ class Freezer extends Personaje {
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño / 2); 
+        super.recibirDaño(daño); 
     }
 }
 class Numero_17 extends Personaje {
     // definir el constructor
     public Numero_17 (){
 
-            super("Cell", 68, 295, 770, 75,60);
+            super("Numero 17", 68, 295, 770, 75,60);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño / 2); 
+        super.recibirDaño(daño); 
     }
 }
 class Numero_18 extends Personaje {
     // definir el constructor
     public Numero_18 (){
 
-            super("Cell", 70, 300, 770, 76,60);
+            super("Numero 18", 70, 300, 770, 76,60);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        super.recibirDaño(daño / 2); 
+        super.recibirDaño(daño); 
     }
 }
 
@@ -309,20 +309,16 @@ public class App {
                     break;
                 default:
                     System.out.println("Acción no válida.");
-                    continue; // Volver a pedir acción
+                    continue; 
             }
 
-            // Verifica si el NPC ha sido derrotado
             if (npc.vida_hp <= 0) {
                 System.out.println(npc.nombre + " ha sido derrotado. ¡Has ganado!");
                 break;
             }
 
-            // Turno de la CPU
             System.out.println("\nTurno de " + npc.nombre + ":");
             npc.realizarAcciones(jugador);
-
-            // Verifica si el jugador ha sido derrotado
             if (jugador.vida_hp <= 0) {
                 System.out.println(jugador.nombre + " ha sido derrotado. ¡Game Over!");
                 break;

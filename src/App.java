@@ -46,9 +46,9 @@ class Personaje {
             int curacion = 90; 
             vida_hp += curacion;
             System.out.println(nombre + " se ha curado " + curacion + " puntos de vida. Vida actual: " + vida_hp);
-            
-        }else{
-            System.out.println("Ya haz alcanzado el limtei de curaciones");
+            curacionLimite++; // Incrementar el límite de curaciones
+        } else {
+            System.out.println("Ya has alcanzado el límite de curaciones.");
         }
     }
     

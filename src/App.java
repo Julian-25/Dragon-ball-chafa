@@ -54,7 +54,7 @@ class Vegeta extends Personaje {
     // definir el constructor
     public Vegeta(){
 
-            super("Vegeta", 75, 320, 220, );
+            super("Vegeta", 75, 320, 220, 80);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -67,7 +67,7 @@ class Picoro extends Personaje {
     // definir el constructor
     public Picoro (){
 
-            super("Picoro", 55, 150, 200);
+            super("Picoro", 55, 150, 200, 56);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -79,7 +79,7 @@ class Gohan extends Personaje {
     // definir el constructor
     public Gohan (){
 
-            super("Gohan", 60, 250, 190);
+            super("Gohan", 60, 250, 190, 55);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -91,7 +91,7 @@ class Krillin extends Personaje {
     // definir el constructor
     public Krillin (){
 
-            super("Krillin", 45, 150, 180);
+            super("Krillin", 45, 150, 180, 45);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -103,7 +103,7 @@ class Trunks extends Personaje {
     // definir el constructor
     public Trunks (){
 
-            super("Trunks", 65, 300, 200);
+            super("Trunks", 65, 300, 200, 60);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -115,7 +115,7 @@ class Ten extends Personaje {
     // definir el constructor
     public Ten (){
 
-            super("Ten", 50, 150, 150);
+            super("Ten", 50, 150, 150, 35);
     }
     public void recibirDaño(double daño) {
         System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
@@ -123,10 +123,48 @@ class Ten extends Personaje {
     }
 }
 
+class Cell extends Personaje {
+    // definir el constructor
+    public Cell (){
+
+            super("Cell", 80, 300, 800, 80);
+    }
+    public void recibirDaño(double daño) {
+        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
+        super.recibirDaño(daño / 2); 
+    }
+}
 class Freezer extends Personaje {
     // definir el constructor
-    public Freezer(String nombre,int fuerza,int velocidad,int vida_hp){
-            super("Freezer", fuerza, velocidad, vida_hp);
+    public Freezer (){
+
+            super("Freezer", 65, 250, 750, 70);
+    }
+    public void recibirDaño(double daño) {
+        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
+        super.recibirDaño(daño / 2); 
+    }
+}
+class Numero_17 extends Personaje {
+    // definir el constructor
+    public Numero_17 (){
+
+            super("Cell", 68, 295, 770, 75);
+    }
+    public void recibirDaño(double daño) {
+        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
+        super.recibirDaño(daño / 2); 
+    }
+}
+class Numero_18 extends Personaje {
+    // definir el constructor
+    public Numero_18 (){
+
+            super("Cell", 70, 300, 770, 76);
+    }
+    public void recibirDaño(double daño) {
+        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
+        super.recibirDaño(daño / 2); 
     }
 }
 
@@ -168,7 +206,7 @@ public class App {
             jugador = new Gohan();
             System.out.println("El personaje elegido será Gohan");
             System.out.println("Sus estadisticas y habilidades son: 190 HP, 250 de velocidad, defender( dara un 35% de defensa al daño recibido durante ese turno) , Super sayayin(gohan  aumentará el poder de sus golpes de sus golpes base en un 20% durante 5 turnos turnos) , semilla del hermitaño curará 25 o hasta 40% (La curacion dependerá de la vida del personaje) y su ataque especial será  Kame hame ha(el daño total 55 dependiendo si el super sayayin está activo están activas entonces sera de 70)");
-            System.out.println("[FACTOR SECRETO] luego de 10 turnos gohan podrá activar el super sayayin 2 que el Kame hame ha (150)");
+            System.out.println("[FACTOR SECRETO] luego de 10 turnos gohan podrá activar el super sayayin 2, esto hará que el Kame hame ha  baje un total de (150)");
             case 6:
             jugador = new Ten();
             System.out.println("El personaje elegido será Ten shin han");
@@ -182,6 +220,35 @@ public class App {
                 System.out.println("Personaje no encontrado, se seleccionará goku por defecto");
                 System.out.println("Sus estadisticas y habilidades son: 250HP, 350 de velocidad, defender (dara un 40% de defensa al daño recibido durante ese turno), Super sayayin(Goku aumentará la fuerza de sus golpes base en un 25% durante 5 turnos) , semilla del hermitaño curará 25 o hasta 40% (La curacion dependerá de la vida del personaje) y su ataque especial será kamehame ha(el daño será 75 dependiendo si el super sayayin está activo entoces era de 100)");
                 jugador = new Goku();
+                break;
+        }
+
+        System.out.println("Contra que villano te quieres enfrentar: (1)Cell, (2)Freezer, (3)Androide 18, (4)Androide 17. ");
+
+        int villano = scanner.nextInt();
+        Personaje npc = null;
+
+        switch (villano) {
+            case 1:
+             npc = new Cell();
+            System.out.println("El villano elegido será Cell que tiene un total de 800 puntos de vida, su ataques es de 70 y su velocidad de de 300 (Su tecnica especial será Copia, este copiara tu tecnica especial lanzada pero con la leve diferencia que tendra un daño de un total de 80 puntos.)");
+            break;
+            case 2:
+             npc = new Freezer();
+            System.out.println("El villano elegido será Freezer que tiene un total de 750 puntos de vida, su ataques es de 65 y su velocidad de de 250 (Su tecnica especial será Death Beam, que tendra un daño de un total de 70 puntos.)");
+            break;
+            case 3:
+             npc = new Numero_17();
+            System.out.println("El villano elegido será Androide 17 que tiene un total de 770 puntos de vida, su ataques es de 68 y su velocidad de de 295 (Su tecnica especial será Bombardeo de luz, que tendra un daño de un total de 75 puntos.)");
+            break;
+            case 4:
+             npc = new Numero_18();
+            System.out.println("El villano elegido será Androide 18 que tiene un total de 770 puntos de vida, su ataques es de 70 y su velocidad de de 300 (Su tecnica especial será Bala infinita, que tendra un daño de un total de 76 puntos.)");
+            break;
+        
+            default:
+                System.out.println("Contricante no encontrado, por defecto se eligirá a Freezer.");
+                npc = new Freezer();
                 break;
         }
 

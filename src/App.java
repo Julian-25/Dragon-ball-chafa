@@ -1,7 +1,6 @@
 import java.util.Random;
 import java.util.Scanner;
 
-// Clase base del personaje
 class Personaje {
     String nombre;
     double fuerza;
@@ -13,8 +12,8 @@ class Personaje {
     int curacionLimite;
     boolean transformado;
     int segunda_fase;
+    boolean defendiendo;
 
-    // Definir constructor
     public Personaje(
             String nombre,
             double fuerza,
@@ -32,15 +31,25 @@ class Personaje {
         this.segunda_fase = segunda_fase;
 
         }
-        public void recibirDaño(double daño){
+        public void recibirDaño(double daño) {
+            if (defendiendo) {
+                daño *= 0.5;
+                defendiendo = false;
+            }
             vida_hp -= daño;
             System.out.println(nombre + " recibe daño de " + daño + " puntos.");
         }
+        
 
 public void atacar(Personaje npc) {
     System.out.println(nombre + " ataca con una fuerza de: " + fuerza);
     npc.recibirDaño(fuerza);
 }
+public void defender() {
+    System.out.println(nombre + " se prepara para defenderse. Reduciendo el daño recibido.");
+    defendiendo = true; 
+}
+
 
     public void curar() {
         if (curacionLimite < 3) {
@@ -56,6 +65,8 @@ public void atacar(Personaje npc) {
     public void ataqueEspecial(Personaje npc){
         System.out.println(nombre + " ha utilizado su ataque especial con un daño de: " + ataque_especial);
         npc.recibirDaño(ataque_especial);
+        
+        
     }
 
     public void transformar() {
@@ -76,10 +87,17 @@ public void atacar(Personaje npc) {
             atacar(npc);
             break;
             case 1:
-            curar();;
+            if (curacionLimite < 3) {
+                curar();
+            }else{
+                realizarAcciones(npc);
+            };
             break;
             case 2:
             ataqueEspecial(npc);
+            break;
+            case 3: 
+            defender();
             break;
             default:
                 break;
@@ -91,16 +109,23 @@ public void atacar(Personaje npc) {
 
 
 class Goku extends Personaje {
-    // definir el constructor
     public Goku(){
 
             super("Goku", 80, 350, 250,75,100, false, 20 );
     }
     @Override
     public void recibirDaño(double daño) {
-        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        double reduccionDeDaño = (daño*0.4);
-        super.recibirDaño(daño -reduccionDeDaño); 
+        System.out.println(nombre + " ha recibido daño.");
+        super.recibirDaño(daño); 
+    }
+    @override
+    public void transformar() {
+        super.transformar();
+        if (transformado) {
+            fuerza *= 1.25; 
+            ataque_especial *= 1.25; 
+            System.out.println(nombre + " ahora tiene una fuerza de: " + fuerza);
+        }
     }
 }
 
@@ -110,24 +135,41 @@ class Vegeta extends Personaje {
 
             super("Vegeta", 75, 320, 220, 80,90, false, 18);
     }
+    @override
     public void recibirDaño(double daño) {
-        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        double reduccionDeDaño = (daño*0.37);
-        super.recibirDaño(daño -reduccionDeDaño); 
+        System.out.println(nombre + " ha recibido daño.");
+        super.recibirDaño(daño); 
+    }
+    @override
+    public void transformar() {
+        super.transformar();
+        if (transformado) {
+            fuerza *= 1.20; 
+            ataque_especial *= 1.20; 
+            System.out.println(nombre + " ahora tiene una fuerza de: " + fuerza);
+        }
     }
 }
 
 
 class Picoro extends Personaje {
-    // definir el constructor
     public Picoro (){
 
-            super("Picoro", 55, 150, 200, 75,80, false, 11);
+            super("Picoro", 55, 150, 200, 75,80, false, 13);
     }
+    @override
     public void recibirDaño(double daño) {
-        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        double reduccionDeDaño = (daño*0.45);
-        super.recibirDaño(daño-reduccionDeDaño); 
+        System.out.println(nombre + " ha recibido daño.");
+        super.recibirDaño(daño); 
+    }
+    @override
+    public void transformar() {
+        super.transformar();
+        if (transformado) {
+            fuerza *= 1.13;
+            ataque_especial *= 1.13;
+            System.out.println(nombre + " ahora tiene una fuerza de: " + fuerza);
+        }
     }
 }
 
@@ -135,17 +177,17 @@ class Gohan extends Personaje {
     public Gohan() {
         super("Gohan", 60, 250, 390, 55, 70, false, 7);
     }
+    @override
     public void recibirDaño(double daño) {
-        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        double reduccionDeDaño = (daño*0.35);
-        super.recibirDaño(daño-reduccionDeDaño); 
+        System.out.println(nombre + " ha recibido daño.");
+        super.recibirDaño(daño); 
     }
-
+    @override
     public void transformar() {
         if (vida_hp > 0) {
             ataque_especial += 80;
             vida_hp += 200;
-            fuerza += 30; // Aumentar fuerza adicional para Super Saiyajin 2
+            fuerza += 30; 
             System.out.println(nombre + " se ha transformado en Super Saiyajin 2! Fuerza, ataque especial y vida aumentados!!");
         } else {
             System.out.println(nombre + " no puede transformarse en estado crítico.");
@@ -154,90 +196,109 @@ class Gohan extends Personaje {
 }
 
 class Krillin extends Personaje {
-    // definir el constructor
     public Krillin (){
 
             super("Krillin", 45, 150, 180, 45,50, false, 6);
     }
     public void recibirDaño(double daño) {
-        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        double reduccionDeDaño = (daño*0.25);
-        super.recibirDaño(daño-reduccionDeDaño); 
+        System.out.println(nombre + " ha recibido daño.");
+        super.recibirDaño(daño); 
+    }
+    @override
+    public void transformar() {
+        super.transformar();
+        if (transformado) {
+            fuerza *= 1.06;
+            ataque_especial *= 1.06;
+            System.out.println(nombre + " ahora tiene una fuerza de: " + fuerza);
+        }
     }
 }
 
 class Trunks extends Personaje {
-    // definir el constructor
     public Trunks (){
 
             super("Trunks", 65, 300, 200, 60,70, false, 20);
     }
     public void recibirDaño(double daño) {
-        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        double reduccionDeDaño = (daño*0.38);
-        super.recibirDaño(daño-reduccionDeDaño); 
+        System.out.println(nombre + " ha recibido daño.");
+        super.recibirDaño(daño); 
+    }
+    @override
+    public void transformar() {
+        super.transformar();
+        if (transformado) {
+            fuerza *= 1.20;
+            ataque_especial *= 1.20;
+            System.out.println(nombre + " ahora tiene una fuerza de: " + fuerza);
+        }
     }
 }
 
 class Ten extends Personaje {
-    // definir el constructor
+
     public Ten (){
 
             super("Ten", 50, 150, 150, 35,40, false, 7);
     }
     public void recibirDaño(double daño) {
-        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        double reduccionDeDaño = (daño*0.15);
-        super.recibirDaño(daño-reduccionDeDaño); 
+        System.out.println(nombre + " ha recibido daño.");
+        super.recibirDaño(daño); 
+    }
+    @override
+    public void transformar() {
+        super.transformar();
+        if (transformado) {
+            fuerza *= 1.20;
+            ataque_especial *= 1.20;
+            System.out.println(nombre + " ahora tiene una fuerza de: " + fuerza);
+        }
     }
 }
 
 class Cell extends Personaje {
-    // definir el constructor
     public Cell (){
 
             super("Cell", 80, 300, 800, 80,68, false, 0 );
     }
+    @override
     public void recibirDaño(double daño) {
-        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        double reduccionDeDaño = (daño*0.25);
-        super.recibirDaño(daño-reduccionDeDaño); 
+        System.out.println(nombre + " ha recibido daño.");
+        super.recibirDaño(daño); 
     }
 }
 class Freezer extends Personaje {
-    // definir el constructor
     public Freezer (){
 
             super("Freezer", 65, 250, 750,70, 70, false, 0);
     }
+    @Override
     public void recibirDaño(double daño) {
-        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        double reduccionDeDaño = (daño*0.30);
-        super.recibirDaño(daño-reduccionDeDaño); 
+        System.out.println(nombre + " ha recibido daño.");
+        super.recibirDaño(daño); 
     }
 }
 class Numero_17 extends Personaje {
-    // definir el constructor
     public Numero_17 (){
 
             super("Numero 17", 68, 295, 770, 75,60, false, 0);
     }
+    @override
     public void recibirDaño(double daño) {
-        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        double reduccionDeDaño = (daño* 0.20);
-        super.recibirDaño(daño-reduccionDeDaño); 
+        System.out.println(nombre + " ha recibido daño.");
+        super.recibirDaño(daño); 
     }
 }
 class Numero_18 extends Personaje {
-    // definir el constructor
+
     public Numero_18 (){
 
             super("Numero 18", 70, 300, 770, 76,60, false, 0);
     }
+    @override
     public void recibirDaño(double daño) {
-        System.out.println(nombre + " es un guerrero fuerte, reduce el daño recibido.");
-        double reduccionDeDaño = (daño*0.18);
-        super.recibirDaño(daño-reduccionDeDaño); 
+        System.out.println(nombre + " ha recibido daño.");
+        super.recibirDaño(daño); 
     }
 }
 
@@ -251,49 +312,93 @@ public class App {
 
         int personaje1 = scanner.nextInt();
         Personaje jugador = null;
+        
 
         switch (personaje1) {
             case 1:
                 jugador = new Goku();
                 System.out.println("El personaje elegido será Goku");
-                System.out.println("Sus estadisticas y habilidades son: 250HP, 350 de velocidad, defender (dara un 40% de defensa al daño recibido durante ese turno), Super sayayin(Goku aumentará la fuerza de sus golpes base en un 25% durante 5 turnos) , semilla del hermitaño curará 25 o hasta 40% (La curacion dependerá de la vida del personaje) y su ataque especial será kamehame ha(el daño será 75 dependiendo si el super sayayin está activo entoces era de 100)");
+                System.out.println("Estadisticas:");
+                System.out.println("Fuerza:80");
+                System.out.println("Velocidad:350");
+                System.out.println("HP:250");
+                System.out.println("Ataque especial: Kame Hame ha(-75HP)");
+                System.out.println("Transformacion: Super sayayin(Goku aumentará la fuerza de sus golpes base en un 25%)");
              break;
 
              case 2:
              jugador = new Vegeta();
              System.out.println("El personaje elegido será Vegeta");
-             System.out.println("Sus estadisticas y habilidades son: 220HP, 320 de velocidad, defender( dara un 37% de defensa al daño recibido durante ese turno) , Super sayayin(Vegeta aumentará la fuerza de sus golpes base en un 20% durante 5 turnos) , semilla del hermitaño curará 25 o hasta 40% (La curacion dependerá de la vida del personaje) y su ataque especial será galick gun ha (el daño total 80 dependiendo si el super sayayin está activo entonces sera de 98)");
+             System.out.println("Estadisticas:");
+             System.out.println("Fuerza:75");
+             System.out.println("Velocidad:350");
+             System.out.println("HP:250");
+             System.out.println("Ataque especial: Galick gun (-80)");
+             System.out.println("Transformacion: Super sayayin(Vegeta aumentará la fuerza de sus golpes base en un 20%)");
              break;
 
              case 3:
              jugador = new Picoro();
              System.out.println("El personaje elegido será Picoro");
-             System.out.println("Sus estadisticas y habilidades son: 200HP, 150 de velocidad, defender( dara un 45% de defensa al daño recibido durante ese turno) , Livianez(Picoro se deshará de su capa y sombrero, esto  aumentará su rapidez y el poder de sus golpes de sus golpes base en un 13% durante dos turnos) , semilla del hermitaño curará 25 o hasta 40% (La curacion dependerá de la vida del personaje) y su ataque especial será  Makankosappo(el daño total 56 dependiendo si la livianez está activa entonces sera de 75)");
+             System.out.println("Estadisticas:");
+             System.out.println("Fuerza:55");
+             System.out.println("Velocidad:150");
+             System.out.println("HP:200");
+             System.out.println("Ataque especial: Makankosappo (-75)");
+             System.out.println("Transformacion: Livianez(Picoro aumentará la fuerza de sus golpes base en un 13%)");
             break;
              case 4:
              jugador = new Krillin();
              System.out.println("El personaje elegido será Krillin");
-             System.out.println("Sus estadisticas y habilidades son: 180HP, 150 de velocidad, defender( dara un 25% de defensa al daño recibido durante ese turno) , Artes marciales(Krillin  aumentará el poder de sus golpes de sus golpes base en un 13% durante dos turnos) , semilla del hermitaño curará 25 o hasta 40% (La curacion dependerá de la vida del personaje) y su ataque especial será  Kienzan(el daño total 45 dependiendo si las artes marciales están activas entonces sera de 60)");
+             System.out.println("Estadisticas:");
+             System.out.println("Fuerza:45");
+             System.out.println("Velocidad:150");
+             System.out.println("HP:180");
+             System.out.println("Ataque especial: Kienzan (-45)");
+             System.out.println("Transformacion: Artes marciales(Krillin aumentará la fuerza de sus golpes base en un 6%)");
             break;
             case 5:
             jugador = new Gohan();
             System.out.println("El personaje elegido será Gohan");
-            System.out.println("Sus estadisticas y habilidades son: 190 HP, 250 de velocidad, defender( dara un 35% de defensa al daño recibido durante ese turno) , Super sayayin(gohan  aumentará el poder de sus golpes de sus golpes base en un 20% durante 5 turnos turnos) , semilla del hermitaño curará 25 o hasta 40% (La curacion dependerá de la vida del personaje) y su ataque especial será  Kame hame ha(el daño total 55 dependiendo si el super sayayin está activo están activas entonces sera de 70)");
-            System.out.println("[FACTOR SECRETO] luego de 10 turnos gohan podrá activar el super sayayin 2, esto hará que el Kame hame ha  baje un total de (150)");
+            System.out.println("Estadisticas:");
+            System.out.println("Fuerza:45");
+            System.out.println("Velocidad:250");
+            System.out.println("HP:190");
+            System.out.println("Ataque especial: Kame hame ha (-45)");
+            System.out.println("Transformacion: Super sayayin(Gohan aumentará la fuerza de sus golpes base en un 20%)");
+            System.out.println("[FACTOR SECRETO] luego de 7 turnos gohan podrá activar el super sayayin 2, esto hará que el Kame hame ha  baje un total de (150)");
             break;
             case 6:
             jugador = new Ten();
             System.out.println("El personaje elegido será Ten shin han");
-            System.out.println("Sus estadisticas y habilidades son: 150HP, 150 de velocidad, defender( dara un 15% de defensa al daño recibido durante ese turno) , Tayioken(Ten shin han hará que el oponente pierda su turno y aumentará el poder de sus golpes de sus golpes base en un 14% durante 3 turnos turnos) , semilla del hermitaño curará 25 o hasta 40% (La curacion dependerá de la vida del personaje) y su ataque especial será  Kikoho(el daño total 35 dependiendo si el el tayioken se tiró entonces será 50)");
+            System.out.println("El personaje elegido será Gohan");
+            System.out.println("Estadisticas:");
+            System.out.println("Fuerza:50");
+            System.out.println("Velocidad:150");
+            System.out.println("HP:150");
+            System.out.println("Ataque especial: Kiko ho (-35)");
+            System.out.println("Transformacion: Tercer ojo(Ten shin han aumentará la fuerza de sus golpes base en un 7%)");
             break;
             case 7:
             jugador = new Trunks();
             System.out.println("El personaje elegido será Trunks del futuro");
-            System.out.println("Sus estadisticas y habilidades son: 200 HP, 300 de velocidad, defender( dara un 35% de defensa al daño recibido durante ese turno) , Super sayayin(Trunks  aumentará el poder de sus golpes de sus golpes base en un 30% durante 5 turnos turnos) , semilla del hermitaño curará 25 o hasta 40% (La curacion dependerá de la vida del personaje) y su ataque especial será  Galick gun(el daño total 60 dependiendo si el super sayayin está activo están activas entonces sera de 75)");
+            System.out.println("Estadisticas:");
+            System.out.println("Fuerza:65");
+            System.out.println("Velocidad:300");
+            System.out.println("HP:200");
+            System.out.println("Ataque especial: Galick gun (-60)");
+            System.out.println("Transformacion: Super sayayin(Trunks aumentará la fuerza de sus golpes base en un 20%)");
+            break;
             default:
                 System.out.println("Personaje no encontrado, se seleccionará goku por defecto");
                 System.out.println("Sus estadisticas y habilidades son: 250HP, 350 de velocidad, defender (dara un 40% de defensa al daño recibido durante ese turno), Super sayayin(Goku aumentará la fuerza de sus golpes base en un 25% durante 5 turnos) , semilla del hermitaño curará 25 o hasta 40% (La curacion dependerá de la vida del personaje) y su ataque especial será kamehame ha(el daño será 75 dependiendo si el super sayayin está activo entoces era de 100)");
                 jugador = new Goku();
+                System.out.println("Estadisticas:");
+                System.out.println("Fuerza:80");
+                System.out.println("Velocidad:350");
+                System.out.println("HP:250");
+                System.out.println("Ataque especial: Kame Hame ha(-75HP)");
+                System.out.println("Transformacion: Super sayayin(Goku aumentará la fuerza de sus golpes base en un 25%)");
                 break;
         }
 
@@ -326,7 +431,7 @@ public class App {
                 break;
         }
 
-        int ronda = 10; // Inicializar la ronda
+        int ronda = 1;
 
         while (jugador.vida_hp > 0 && npc.vida_hp > 0) {
             System.out.println("\nTurno del jugador:");
@@ -334,6 +439,16 @@ public class App {
             System.out.println("1. Atacar");
             System.out.println("2. Curarse");
             System.out.println("3. Ataque especial");
+            System.out.println("4. Defenderse");
+
+            if (ronda >= 3 && (jugador instanceof Goku || jugador instanceof Vegeta || jugador instanceof Trunks)) {
+                System.out.println("5. Transformar en super sayayin");
+            } else if (ronda >= 7 && jugador instanceof Gohan) {
+                System.out.println("5. [FACTOR SECRETO] Transformarse en ssj2");
+            } else if (ronda >= 3 && (jugador instanceof Picoro || jugador instanceof Krillin || jugador instanceof Ten)) {
+                System.out.println("5. Transformarse");
+            }
+
             int accionJugador = scanner.nextInt();
 
             switch (accionJugador) {
@@ -346,9 +461,14 @@ public class App {
                 case 3:
                     jugador.ataqueEspecial(npc);
                     break;
+
                 case 4:
-                    if (ronda >= 10 && jugador instanceof Gohan) {
-                        ((Gohan) jugador).transformar(); // Llamar a la transformación específica
+                jugador.defender();
+                break;
+
+                case 5:
+                    if (ronda >= 7 && jugador instanceof Gohan) {
+                        ((Gohan) jugador).transformar();
                     } else if (ronda % 3 == 0) {
                         jugador.transformar();
                     } else {
@@ -375,7 +495,7 @@ public class App {
             System.out.println(npc.nombre + " HP: " + npc.vida_hp);
 
             
-            ronda++; // Incrementar la ronda
+            ronda++;
         }
 
         scanner.close();
